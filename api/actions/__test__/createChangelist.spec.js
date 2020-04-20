@@ -6,7 +6,7 @@
  */
 
 const { fn } = require('../createChangelist');
-const Issues = require('../../services/Issues');
+//const Issues = require('../../services/Issues');
 
 global.sails = {
     hooks: {
