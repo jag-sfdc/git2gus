@@ -6,6 +6,7 @@
  */
 
 const GithubEvents = require('../modules/GithubEvents');
+//const jsforce = require('jsforce');
 
 module.exports = {
     eventName: GithubEvents.events.PULL_REQUEST_CLOSED,
@@ -14,27 +15,35 @@ module.exports = {
             pull_request: { title }
         } = req.body;
         if (title.includes('@W-')) {
-            var jsforce = require('jsforce');
-            var conn = new jsforce.Connection();
-            conn.login('dummy_username', 'dummy_password', err => {
-                if (err) {
-                    return console.error(err);
-                }
-                conn.sobject('ADM_Change_List__c').create(
-                    {
-                        Perforce_Changelist__c: 'jag-sfdc/git2gustest/pull/51',
-                        Work__c: 'a07B0000007sxpcIAA',
-                        External_ID__c: 'jag-sfdc/git2gustest/pull/51',
-                        Source__c: 'GitHub'
-                    },
-                    (err, ret) => {
-                        if (err || !ret.success) {
-                            return console.error(err, ret);
-                        }
-                        console.log('Created record id : ' + ret.id);
-                    }
-                );
-            });
+            console.log(
+                'Will call GUS with username ',
+                process.env.GUS_USERNAME
+            );
+            // var conn = new jsforce.Connection();
+            // conn.login(
+            //     process.env.GUS_USERNAME,
+            //     process.env.GUS_PASSWORD,
+            //     err => {
+            //         if (err) {
+            //             return console.error(err);
+            //         }
+            //         conn.sobject('ADM_Change_List__c').create(
+            //             {
+            //                 Perforce_Changelist__c:
+            //                     'jag-sfdc/git2gustest/pull/51',
+            //                 Work__c: 'a07B0000007sxpcIAA',
+            //                 External_ID__c: 'jag-sfdc/git2gustest/pull/51',
+            //                 Source__c: 'GitHub'
+            //             },
+            //             (err, ret) => {
+            //                 if (err || !ret.success) {
+            //                     return console.error(err, ret);
+            //                 }
+            //                 console.log('Created record id : ' + ret.id);
+            //             }
+            //         );
+            //     }
+            // );
         }
     }
 };
